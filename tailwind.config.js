@@ -1,10 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
+    //exporta para todos os arquivos .tsx as configurações do tw feitas
     './src/**/*.tsx'
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: 'Roboto, sans-serif',
+      },
       colors: {
         green: {
           300: '#00B37E',
