@@ -1,6 +1,40 @@
+import { gql, useMutation } from "@apollo/client";
+import { useState, FormEvent } from "react";
 import { Logo } from "../components/Logo";
 
+const CREATE_SUBSCRIBER_MUTATION = gql`
+	mutation CreateSubscriber ($name: string!, $email: String!){
+		createSubscriber(data: {name: $name, email: $email}){
+			id
+		}
+	}
+`
+
 export function Subscribe() {
+
+	//state é onde guardamos os dados do nosso componente
+	//state representam os valores renderizados, ou seja, o que está atualmente na tela
+	const [name, setName] = useState('');
+	//na primeira posição é o valor da variavel, que está vazio
+	//a segunda altera o valor dessa variavel
+	const [email, setEmail] = useState('');
+
+	
+	const [createSubscriber] = useMutation(CREATE_SUBSCRIBER_MUTATION)
+	
+	
+	
+	function handleSubscribe(event: FormEvent){
+		event.preventDefault();
+
+		createSubscriber({
+			variables:{
+				name, 
+				email,
+			}
+		})
+	}
+
 	return (
 		<div className="min-h-screen bg-blur bg-cover bg-no-repeat flex flex-col items-center">
 
@@ -19,16 +53,20 @@ export function Subscribe() {
 				<div className="p-8 bg-gray-700 border border-gray-500 rounded">
 					<strong className="text-2xl mb-6 block">Inscreva-se gratuitamente</strong>
 
-					<form action="" className="flex flex-col gap-2 w-full ">
+					<form onSubmit={handleSubscribe} className="flex flex-col gap-2 w-full ">
 						<input
 							className="bg-gray-900 rounded px-5 h-14"
 							type="text"
 							placeholder="Seu nome completo"
+							//pega, atraves do evento de digitação, o target e o valor que o usuairo digitou
+							//e então colocamos dentro da variavel setname
+							onChange={event => setName(event.target.value)}
 						/>
 						<input
 							className="bg-gray-900 rounded px-5 h-14"
 							type="email"
 							placeholder="Digite seu email"
+							onChange={event => setEmail(event.target.value)}
 						/>
 
 						<button
