@@ -1,33 +1,10 @@
 import { gql, useQuery } from "@apollo/client";
+import { useGetLessonsQuery } from "../graphql/generated";
 import { Lesson } from "./Lesson";
 
-//usamos o gql como uma forma de "formatar" a query pro vscode, mas funciona sem a importação do gql
-//sem usar o gql fica como stirng a query
-const GET_LESSONS_QUERY = gql`
-query  {
-  lessons(orderBy: availableAt_ASC, stage: PUBLISHED) {
-    id
-    lessonType
-    availableAt
-    title
-    slug
-  }
-}
-`
-
-//criamos essa interface para realizar a buscar da query da lessons -> query
-interface GetLessonsQueryResponse {
-        lessons: {
-                id: string
-                title: string
-                slug: string
-                availableAt: string
-                lessonType: 'live' | 'class'
-        }[]
-}
 
 export function Sidebar() {
-        const { data } = useQuery<GetLessonsQueryResponse>(GET_LESSONS_QUERY)
+        const { data } = useGetLessonsQuery()
 
 
         return (
