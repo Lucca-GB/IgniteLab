@@ -22,8 +22,8 @@ export function Subscribe() {
 	//a segunda altera o valor dessa variavel
 	const [email, setEmail] = useState('');
 
-	
-	const [createSubscriber] = useMutation(CREATE_SUBSCRIBER_MUTATION)	
+	//o loading é uma função de leitura de carregamento q verifica q se o usuário está sendo criado
+	const [createSubscriber, { loading }] = useMutation(CREATE_SUBSCRIBER_MUTATION)	
 	
 	async function handleSubscribe(event: FormEvent){
 		event.preventDefault();
@@ -75,7 +75,8 @@ export function Subscribe() {
 
 						<button
 							type="submit"
-							className="mt-4 bg-green-500 uppercase py-4 rounded font-bold text-sm hover:bg-green-700 transition-colors"
+							disabled={loading}
+							className="mt-4 bg-green-500 uppercase py-4 rounded font-bold text-sm hover:bg-green-700 transition-colors disabled:opacity-50"
 						>
 							Garantir a minha vaga
 						</button>
