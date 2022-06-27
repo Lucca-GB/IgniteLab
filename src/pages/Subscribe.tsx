@@ -1,9 +1,10 @@
 import { gql, useMutation } from "@apollo/client";
 import { useState, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { Logo } from "../components/Logo";
 
 const CREATE_SUBSCRIBER_MUTATION = gql`
-	mutation CreateSubscriber ($name: string!, $email: String!){
+	mutation CreateSubscriber ($name: String!, $email: String!){
 		createSubscriber(data: {name: $name, email: $email}){
 			id
 		}
@@ -11,6 +12,8 @@ const CREATE_SUBSCRIBER_MUTATION = gql`
 `
 
 export function Subscribe() {
+
+	const navigate = useNavigate()
 
 	//state é onde guardamos os dados do nosso componente
 	//state representam os valores renderizados, ou seja, o que está atualmente na tela
@@ -20,19 +23,20 @@ export function Subscribe() {
 	const [email, setEmail] = useState('');
 
 	
-	const [createSubscriber] = useMutation(CREATE_SUBSCRIBER_MUTATION)
+	const [createSubscriber] = useMutation(CREATE_SUBSCRIBER_MUTATION)	
 	
-	
-	
-	function handleSubscribe(event: FormEvent){
+	async function handleSubscribe(event: FormEvent){
 		event.preventDefault();
 
-		createSubscriber({
+		await createSubscriber({
 			variables:{
 				name, 
 				email,
 			}
 		})
+
+
+		navigate('/event')
 	}
 
 	return (
